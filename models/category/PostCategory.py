@@ -1,4 +1,3 @@
-from enum import Enum
 from applications.listEmAlpha.models.category.KijCategory import KijCategory
 from applications.listEmAlpha.models.category.CraigslistCategory import CraigslistCategory
 

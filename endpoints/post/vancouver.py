@@ -1,10 +1,9 @@
+import re
+
 from flask import request, jsonify, make_response
 from flask.ext.restful import Resource, marshal_with, fields, reqparse
-import re
-from flask.ext.rq import get_queue
-import time
 from werkzeug.routing import ValidationError
-from posters.vancouver import main
+
 
 
 def email(email_str):
@@ -78,19 +77,13 @@ user_fields = {
 
 
 class vancouver(Resource):
+
     @marshal_with(user_fields)
     def post(self):
+        from posters.vancouver.main import post
         args = post_parser.parse_args()
-        job = main.post(args)
-
-        print("before sleep", job)
-
-        time.sleep(1)
-
-        print("after sleep", job)
-        print("result", job)
-
-        return dict(title=job)
+        job = post(args)
+        return dict(title=job.result)
 
     def get(self):
         content = {"time": 123,

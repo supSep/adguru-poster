@@ -1,4 +1,5 @@
 from enum import Enum
+
 from applications.listEmAlpha.models.locations.CraigslistLocation import CraigslistLocation
 from applications.listEmAlpha.models.locations.KijLocation import KijLocation
 

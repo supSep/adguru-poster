@@ -1,6 +1,7 @@
+import time
+
 from flask import request, jsonify, make_response
 from flask.ext.restful import Resource
-import time
 
 
 class ping(Resource):
