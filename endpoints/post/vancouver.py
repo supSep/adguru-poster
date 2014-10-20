@@ -2,6 +2,7 @@ from flask import request, jsonify, make_response
 from flask.ext.restful import Resource, marshal_with, fields, reqparse
 import re
 from flask.ext.rq import get_queue
+import time
 from werkzeug.routing import ValidationError
 from posters.vancouver import main
 
@@ -80,14 +81,16 @@ class vancouver(Resource):
     @marshal_with(user_fields)
     def post(self):
         args = post_parser.parse_args()
-        result = main.post()
-        job = get_queue().enqueue(main.post())
-        print(job)
-        response = make_response()
-        response.headers['content-type'] = 'application/json'
-        response.status_code = 200
-        args['title'] = result
-        return args
+        job = main.post(args)
+
+        print("before sleep", job)
+
+        time.sleep(1)
+
+        print("after sleep", job)
+        print("result", job)
+
+        return dict(title=job)
 
     def get(self):
         content = {"time": 123,

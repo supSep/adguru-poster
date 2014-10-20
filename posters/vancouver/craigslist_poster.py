@@ -1,19 +1,19 @@
+import time
+
 __author__ = 'sepehrtaheri'
 
+from requests import Session
 from robobrowser import RoboBrowser
 
 
 def postcl(form, zip):
     formpics = 0
-    # Browse to Rap Genius
-    browser = RoboBrowser(history=True)
+
+    session = Session()
+    # TODO add proxies
+    #session.proxies = {'http': 'http://my.proxy.com/'}
+    browser = RoboBrowser(session=session, history=True)
     browser.open('https://post.craigslist.org/c/van?lang=en')
-
-    # db(db_category.location == form.category)
-    # db(db_location.location == form.location)
-
-    cl_category = 'Video Games'
-    cl_location = 'North Van'
 
     type = browser.get_form(class_='catpick picker')
 
@@ -21,15 +21,21 @@ def postcl(form, zip):
 
     browser.submit_form(type)
 
+    time.sleep(1)
+
     category = browser.get_form(class_='catpick picker')
     category['id'].value = '151'
 
     browser.submit_form(category)
 
+    time.sleep(1)
+
     subarea = browser.get_form(class_='subareapick picker')
     subarea['n'].value = '2'
 
     browser.submit_form(subarea)
+
+    time.sleep(1)
 
     #post = browser.get_form(id_='postingForm')
     post = browser.get_forms()[0]
